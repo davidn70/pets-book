@@ -46,6 +46,9 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/signin">Sign In</a>
 					</li>
+                    <li class="nav-item">
+						<a class="nav-link" href="/signin" id="signOut">Sign Out</a>
+					</li>
 				</ul>
 
 				<form class="form-inline" id="searchform" action="/" method="post">
@@ -85,6 +88,12 @@
     messagingSenderId: "1097501597592"
   };
   firebase.initializeApp(config);
+</script>
+
+<script>
+document.getElementById('signOut').addEventListener('click', function(event) {
+  firebase.auth().signOut();
+});
 </script>
 
 	<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
