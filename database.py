@@ -49,6 +49,7 @@ def search(search_term):
 
 
 def save(data, image_name):
+    print(data)
     kind = 'Pet'
     id = image_name
     key = datastore_client.key(kind, id)
@@ -61,3 +62,20 @@ def save(data, image_name):
         pet[prop] = val
 
     datastore_client.put(pet)
+
+    bigquery_client = bigquery.Client()
+    dataset = bigquery_client.dataset('Pets')
+    left = bigquery.SchemaField('pet_id', 'STRING', 'REQUIRED')
+    right = bigquery.SchemaField('label', 'STRING', 'REQUIRED')
+    table = dataset.table('pet_labels')
+    ROWS_TO_INSERT = []
+    row = {}
+    row["pet_id"] = id
+    row["label"] = data["caption"]
+    ROWS_TO_INSERT.append(row)
+    row = {}
+    row["pet_id"] = id
+    row["label"] = data["petname"]
+    ROWS_TO_INSERT.append(row)
+    bigquery_client.insert_rows(table, ROWS_TO_INSERT, selected_fields=[left, right])
+
