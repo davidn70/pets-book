@@ -1,7 +1,7 @@
-from services import root_dir, nice_json
-from flask import Flask
-#import json
-#import requests
+from flask import Flask, make_response
+import os
+import json
+import requests
 from google.cloud import firestore
 from google.cloud import storage, vision
 from wand.image import Image
@@ -11,6 +11,17 @@ client = storage.Client()
 vision_client = vision.ImageAnnotatorClient()
 
 app = Flask(__name__)
+
+def root_dir():
+    """ Returns root director for this project """
+    return os.path.dirname(os.path.realpath(__file__ + '/..'))
+
+
+def nice_json(arg):
+    response = make_response(json.dumps(arg, sort_keys = True, indent=4))
+    response.headers['Content-type'] = "application/json"
+    return response
+
 
 @app.route("/", methods=['GET'])
 def main():
