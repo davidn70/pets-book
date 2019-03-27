@@ -23,6 +23,8 @@ Bonus features:
 * Looks nice - Use material design to style your Web site  
 * Gratuitous animations  
 * Add some machine learning into your app  
+* Add Pub/Sub
+* Add a Cloud Function
 * Anything else  
 
 

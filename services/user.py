@@ -12,7 +12,7 @@ with open("{}/database/users.json".format(root_dir()), "r") as f:
 
 
 @app.route("/", methods=['GET'])
-def hello():
+def main():
     return nice_json({
         "uri": "/",
         "subresource_uris": {
@@ -89,4 +89,4 @@ def user_suggested(username):
 
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
