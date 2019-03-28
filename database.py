@@ -1,10 +1,12 @@
 from google.cloud import datastore
 from google.cloud import bigquery
 import datetime
+import requests
 
 import main
 
 datastore_client = datastore.Client(main.PROJECT)
+API_ENDPOINT = "http://35.188.88.210:8080/checkimage"
 
 
 def get():
@@ -48,6 +50,18 @@ def search(search_term):
     return pets
 
 
+def call_vision(bucket, name):
+    # data to be sent to api
+    data = {'bucket': bucket,
+            'name': name}
+
+    # sending post request and saving response as response object
+    r = requests.post(url=API_ENDPOINT, data=data)
+
+    # extracting response text
+    print(r.text)
+
+
 def save(data, image_name):
     print(data)
     kind = 'Pet'
@@ -78,4 +92,4 @@ def save(data, image_name):
     row["label"] = data["petname"].lower()
     ROWS_TO_INSERT.append(row)
     bigquery_client.insert_rows(table, ROWS_TO_INSERT, selected_fields=[left, right])
-
+    call_vision(main.BUCKET, image_name)
