@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: uploadimage
-        image: gcr.io/still-bank-234915/uploadimage:v0.1
+        image: gcr.io/still-bank-234915/uploadimage:v0.2
         imagePullPolicy: Always
         ports:
         - name: http-server
