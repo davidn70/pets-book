@@ -35,7 +35,7 @@ def search(search_term):
     job_config = bigquery.QueryJobConfig()
     job_config.query_parameters = query_params
 
-    query_job = bigquery_client.query("""SELECT DISTINCT pet_id FROM `Pets.pet_labels` WHERE REGEXP_CONTAINS(label, @search_term) LIMIT 20 """,
+    query_job = bigquery_client.query("""SELECT DISTINCT pet_id FROM `still-bank-234915.Pets.pet_labels` WHERE REGEXP_CONTAINS(label, @search_term) LIMIT 20 """,
     location='US', job_config=job_config)
 
     results = query_job.result() 
@@ -71,11 +71,11 @@ def save(data, image_name):
     ROWS_TO_INSERT = []
     row = {}
     row["pet_id"] = id
-    row["label"] = data["caption"]
+    row["label"] = data["caption"].lower()
     ROWS_TO_INSERT.append(row)
     row = {}
     row["pet_id"] = id
-    row["label"] = data["petname"]
+    row["label"] = data["petname"].lower()
     ROWS_TO_INSERT.append(row)
     bigquery_client.insert_rows(table, ROWS_TO_INSERT, selected_fields=[left, right])
 

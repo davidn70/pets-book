@@ -22,7 +22,7 @@ def user_suggested(pet_id, label):
     ROWS_TO_INSERT = []
     row = {}
     row["pet_id"] = pet_id
-    row["label"] = label
+    row["label"] = label.lower()
     ROWS_TO_INSERT.append(row)
     bigquery_client.insert_rows(table, ROWS_TO_INSERT,
                                 selected_fields=[left, right])
