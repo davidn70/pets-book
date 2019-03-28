@@ -1,0 +1,28 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: uploadimage
+  labels:
+    app: uploadimage
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: uploadimage
+        tier: frontend
+    spec:
+      containers:
+      - name: uploadimage
+        image: gcr.io/still-bank-234915/uploadimage:v0.1
+        imagePullPolicy: Always
+        ports:
+        - name: http-server
+          containerPort: 8080
+        env:
+          - name: GCLOUD_PROJECT
+            value: still-bank-234915
+          - name: GCLOUD_BUCKET
+            value: still-bank-234915-media
+          - name: NODE_ENV
+            value: production

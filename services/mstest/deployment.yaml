@@ -14,15 +14,15 @@ spec:
     spec:
       containers:
       - name: mstest
-        image: gcr.io/qwiklabs-gcp-773a9e33f861d70d/mstest
+        image: gcr.io/still-bank-234915/mstest
         imagePullPolicy: Always
         ports:
         - name: http-server
           containerPort: 8080
         env:
           - name: GCLOUD_PROJECT
-            value: qwiklabs-gcp-773a9e33f861d70d
+            value: still-bank-234915
           - name: GCLOUD_BUCKET
-            value: qwiklabs-gcp-773a9e33f861d70d-media
+            value: still-bank-234915-media
           - name: NODE_ENV
             value: production

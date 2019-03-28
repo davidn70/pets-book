@@ -1,14 +1,17 @@
-from flask import Flask, make_response
 import os
 import json
 import requests
-from google.cloud import firestore
-from google.cloud import storage, vision
-from wand.image import Image
+from flask import Flask, make_response
+#import firebase_admin
+#from firebase_admin import credentials
+#from firebase_admin import firestore
+import google.cloud
+#from google.cloud import firestore, storage, vision
+#from wand.image import Image
 
-PREFIX = "thumbnail"
-client = storage.Client()
-vision_client = vision.ImageAnnotatorClient()
+#PREFIX = "thumbnail"
+#client = storage.Client()
+#vision_client = vision.ImageAnnotatorClient()
 
 app = Flask(__name__)
 
@@ -28,23 +31,10 @@ def main():
     return nice_json({
         "uri": "/",
         "subresource_uris": {
-            "users": "/users",
-            "user": "/users/<username>",
-            "bookings": "/users/<username>/bookings",
-            "suggested": "/users/<username>/suggested"
+            "thumbnail": "/makethumbnail",
+            "checkimage": "/checkimage/<username>"
         }
     })
-
-
-@app.route("/users/<username>/suggested", methods=['GET'])
-def user_suggested(username):
-    """
-    Returns movie suggestions. The algorithm returns a list of 3 top ranked
-    movies that the user has not yet booked.
-    :param username:
-    :return: Suggested movies
-    """
-    raise NotImplementedError()
 
 
 @app.route("/makethumbnail", methods=['GET'])
@@ -73,7 +63,7 @@ def make_thumbnail(data, context):
     # resized or not, this is theo ne we need to check for inappropriate content
     thumbnail_blob = bucket.blob(newName)
 
-    safe = __check_image(data)
+    safe = check_image(data)
 
     if safe:
         thumbnail_blob.upload_from_string(thumbnail.make_blob())
@@ -91,7 +81,8 @@ def make_thumbnail(data, context):
     doc['image'] = newName[:-4]
     happenings.document(oldName).set(doc)
 
-def __check_image(file_data):
+@app.route("/checkimage", methods=['GET'])
+def check_image(file_data):
     file_name = file_data['name']
     bucket_name = file_data['bucket']
     blob_uri = f'gs://{bucket_name}/{file_name}'
