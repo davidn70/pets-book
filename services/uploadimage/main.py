@@ -93,8 +93,8 @@ def check_image():
         print(f'file_name {file_name}')
         bucket_name = request.form['bucket']
         print(f'bucket_name {bucket_name}')
-        file_name = str(uuid.uuid4())
-        print(f'file_name is now {file_name}')
+        #file_name = str(uuid.uuid4())
+        #print(f'file_name is now {file_name}')
 
         blob_uri = f'gs://{bucket_name}/{file_name}'
         print(f'blob_uri {blob_uri}')
@@ -108,10 +108,10 @@ def check_image():
 
         if detected.adult == 5 or detected.violence == 5:
             print(f'The image {file_name} was detected as inappropriate.')
-            return False
+            return "false"
         else:
             print(f'The image {file_name} was detected as OK.')
-            return True
+            return "true"
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)
