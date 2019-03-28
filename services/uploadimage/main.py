@@ -1,12 +1,12 @@
 import os
 import json
 import requests
-from flask import Flask, make_response
+from flask import Flask, make_response, render_template, request, redirect
 #import firebase_admin
 #from firebase_admin import credentials
 #from firebase_admin import firestore
 import google.cloud
-#from google.cloud import firestore, storage, vision
+from google.cloud import storage, vision
 #from wand.image import Image
 
 #PREFIX = "thumbnail"
@@ -89,10 +89,9 @@ def check_image():
 
     if request.method == 'POST':
         print("This was a POST")
-        file_name = request.files['name']
-        print("file_name")
+        file_name = request.form['name']
         print(f'file_name {file_name}')
-        bucket_name = request.files['bucket']
+        bucket_name = request.form['bucket']
         print(f'bucket_name {bucket_name}')
         file_name = str(uuid.uuid4())
         print(f'file_name is now {file_name}')
